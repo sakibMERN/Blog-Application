@@ -1,12 +1,14 @@
 const userModel = require('../models/userModels');
 const bcrypt = require('bcrypt');
 
-//create user register
+
+
+// create user register
 exports.registerController = async(req, res) => {
      try {
           const {username, email, password} = req.body
 
-          //validation
+          // validation
           if(!username || !email || !password){
                return res.status(400).send({
                     'success': false,
@@ -14,7 +16,7 @@ exports.registerController = async(req, res) => {
                })
           };
 
-          //existing user
+          // existing user
           const existingUser = await userModel.findOne({email});
 
           if(existingUser){
@@ -24,11 +26,11 @@ exports.registerController = async(req, res) => {
                })
           };
 
-          //hashed password
+          // hashed password
           const hashedPassword = await bcrypt.hash(password, 10);
 
 
-          //save new user
+          // save new user
            const user = new userModel({username, email, password: hashedPassword});
 
            await user.save();

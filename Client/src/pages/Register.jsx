@@ -15,28 +15,29 @@ const Register = () => {
      });
 
      // handel input change
-     // const handelChange = (e) =>{
-     //      setInput((prevState)=>({
-     //           ...prevState,
-     //           [e.target.name]: e.target.value,
-     //      }));
-     // };
+     const handelChange = (e) =>{
+          setInput((prevState)=>({
+               ...prevState,
+               [e.target.name]: e.target.value
+          }));
+     };
 
      const handeleSubmit = async (e) =>{
           e.preventDefault();
+          
           try {
-               console.log(28);
-               console.log({username:input.name});
-               const data =await axios.post('http://localhost:8080/api/v1/user/register',{username:input.name, email:input.email, password:input.password});
-               console.log(30);
-               if(data.success){
+               
+               const data =await axios.post('http://localhost:8080/api/v1/user/register',{username:input.username, email:input.email, password:input.password});
+
+               if(data.data.success){
                     alert ('User register successfully')
-                    navigate("/login")
                }
+               navigate("/login");
           
           } catch (error) {
                console.log(error);
           }
+          
 
      }
 
@@ -61,13 +62,13 @@ const Register = () => {
 
                          <TextField 
                               placeholder='name' 
-                              name='name' 
+                              name='username' 
                               type='text'
-                              value={input.name}
+                              value={input.username}
                               margin='dense'
                               fullWidth
                               required
-                              
+                              onChange={handelChange}
                          />
                          <TextField 
                               placeholder='email' 
@@ -77,7 +78,7 @@ const Register = () => {
                               margin='dense'
                               fullWidth
                               required
-                              
+                              onChange={handelChange}
                          />
                          <TextField 
                               placeholder='password' 
@@ -87,7 +88,7 @@ const Register = () => {
                               margin='dense'
                               fullWidth
                               required
-                              
+                              onChange={handelChange}
                          />
                          
                          <Button type='submit' variant='contained' color='primary' sx={{borderRadius: 3, marginTop: 2}}>
